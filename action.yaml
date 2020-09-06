@@ -1,0 +1,68 @@
+name: Create CloudFormation Environment
+author: Isaac Shabtay
+description: Creates a CloudFormation environment
+branding:
+  icon: cloud
+  color: white
+inputs:
+  environment-name:
+    description: Name of Cloudify environment to create
+    required: true
+  stack-name:
+    description: CloudFormation's stack name
+    required: true
+  template-file:
+    description: Path to the file containing the template
+    required: false
+    default: "-"
+  bucket-name:
+    description: |
+      Name of S3 bucket to get the template from; if specified,
+      then `resource_name` must also be specified
+    required: false
+    default: "-"
+  resource-name:
+    description: |
+      Name of file, within the bucket specified by `bucket_name`, containing
+      the template to be used
+    required: false
+    default: "-"
+  template-url:
+    description: URL of CloudFormation template
+    required: false
+    default: "-"
+  parameters-file:
+    description: YAML/JSON file containing template parameters
+    required: false
+    default: "-"
+  outputs-file:
+    description: |
+      Path to JSON file to receive the Cloudify environment's outputs
+      and capabilities
+    required: false
+    default: "-"
+outputs:
+  environment-data:
+    description: The Cloudify environment's outputs and capabilties
+runs:
+  using: docker
+  image: docker://isaaccfy/cfy-ci:latest
+  entrypoint: cfyci
+  args:
+    - cfn
+    - '--name'
+    - ${{ inputs.environment-name }}
+    - '--stack-name'
+    - ${{ inputs.stack-name }}
+    - '--template-file'
+    - ${{ inputs.template-file }}
+    - '--bucket-name'
+    - ${{ inputs.bucket-name }}
+    - '--resource-name'
+    - ${{ inputs.resource-name }}
+    - '--template-url'
+    - ${{ inputs.template-url }}
+    - '--parameters-file'
+    - ${{ inputs.parameters-file }}
+    - '--outputs-file'
+    - ${{ inputs.outputs-file }}
