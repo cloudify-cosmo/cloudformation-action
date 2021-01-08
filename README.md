@@ -49,7 +49,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Create environment
-        uses: cloudify-cosmo/cloudformation-action@v1.0
+        uses: cloudify-cosmo/cloudformation-action@v1.1
         with:
           environment-name: "test-cfn-$GITHUB_RUN_ID"
           stack-name: "githubcfnstack-$GITHUB_RUN_ID"
